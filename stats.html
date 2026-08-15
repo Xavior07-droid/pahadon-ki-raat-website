@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Info · Pahadon Ki Raat</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#05070f; --ember:#ff9d52; --ember-soft:#ffc088; --moon:#f4f7fc;
+    --mist:#a9bedd; --mist-dim:#7a8bab;
+    --glass:rgba(16,21,36,0.55); --border:rgba(255,255,255,0.12);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; font-family:'Poppins',sans-serif; color:var(--moon);
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(255,157,82,0.12), transparent 60%),
+      radial-gradient(1000px 800px at 100% 100%, rgba(80,110,200,0.14), transparent 60%),
+      var(--void);
+    padding:28px 20px 60px;
+  }
+  .wrap{max-width:980px; margin:0 auto;}
+  .glass{background:var(--glass); backdrop-filter:blur(16px); border:1px solid var(--border); border-radius:20px;}
+
+  /* --- gate --- */
+  .gate{min-height:80vh; display:flex; align-items:center; justify-content:center;}
+  .gate-card{width:min(360px,90vw); padding:34px 28px; text-align:center;}
+  .gate-card h1{font-size:18px; font-weight:600; margin:0 0 6px;}
+  .gate-card p{font-size:12.5px; color:var(--mist-dim); margin:0 0 20px;}
+  .gate-card input{
+    width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border);
+    background:rgba(255,255,255,0.05); color:var(--moon); font-size:14px; outline:none; margin-bottom:12px;
+  }
+  .gate-card input:focus{border-color:var(--ember);}
+  .gate-btn{
+    width:100%; padding:12px; border-radius:12px; border:none; cursor:pointer;
+    background:linear-gradient(160deg,var(--ember-soft),var(--ember)); color:#1a0f04; font-weight:600; font-size:14px;
+  }
+  .gate-err{color:#ff7a7a; font-size:12px; margin-top:10px; min-height:14px;}
+
+  /* --- dashboard --- */
+  .dash{display:none;}
+  .dash.show{display:block;}
+  .dash-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:10px;}
+  .dash-head h1{font-size:22px; margin:0; font-weight:600;}
+  .dash-head p{margin:2px 0 0; font-size:12.5px; color:var(--mist-dim);}
+  .logout{font-size:12px; color:var(--mist); cursor:pointer; border:1px solid var(--border); padding:8px 14px; border-radius:999px;}
+  .logout:hover{color:var(--ember-soft);}
+
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px;}
+  .stat-card{padding:18px;}
+  .stat-card .lbl{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--mist-dim);}
+  .stat-card .val{font-family:'JetBrains Mono',monospace; font-size:26px; font-weight:500; margin-top:6px;}
+  .stat-card .sub{font-size:11px; color:var(--mist-dim); margin-top:4px;}
+
+  .section{padding:20px; margin-bottom:18px;}
+  .section h2{font-size:14px; margin:0 0 14px; font-weight:600; display:flex; align-items:center; gap:8px;}
+  .badge{font-size:9.5px; padding:2px 8px; border-radius:999px; background:rgba(255,157,82,0.18); color:var(--ember-soft); text-transform:uppercase; letter-spacing:.5px;}
+  .badge.local{background:rgba(120,150,220,0.18); color:#a9bedd;}
+
+  .bar-row{display:flex; align-items:center; gap:12px; margin-bottom:12px; font-size:12.5px;}
+  .bar-row .name{width:150px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .bar-track{flex:1; height:10px; border-radius:6px; background:rgba(255,255,255,0.08); overflow:hidden;}
+  .bar-fill{height:100%; border-radius:6px; background:linear-gradient(90deg,var(--ember),var(--ember-soft));}
+  .bar-num{width:40px; text-align:right; font-family:'JetBrains Mono',monospace; color:var(--mist);}
+
+  .timeline-row{display:flex; align-items:flex-end; gap:6px; height:90px; padding-top:10px;}
+  .timeline-bar{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; height:100%;}
+  .timeline-fill{width:100%; max-width:26px; border-radius:5px 5px 2px 2px; background:linear-gradient(180deg,var(--ember-soft),var(--ember)); min-height:3px;}
+  .timeline-lbl{font-size:9px; color:var(--mist-dim); writing-mode:horizontal-tb; white-space:nowrap;}
+
+  table{width:100%; border-collapse:collapse; font-size:12px;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); color:var(--mist);}
+  th{color:var(--mist-dim); font-weight:500; text-transform:uppercase; font-size:10.5px; letter-spacing:.5px;}
+  tbody tr:hover{background:rgba(255,255,255,0.03);}
+  .table-wrap{max-height:260px; overflow-y:auto;}
+
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .ghost-btn{
+    padding:9px 16px; border-radius:10px; border:1px solid var(--border); background:rgba(255,255,255,0.04);
+    color:var(--mist); font-size:12.5px; cursor:pointer;
+  }
+  .ghost-btn:hover{color:var(--moon); border-color:var(--mist);}
+  .ghost-btn.danger:hover{color:#ff7a7a; border-color:#ff7a7a;}
+
+  .note{font-size:11.5px; color:var(--mist-dim); line-height:1.6;}
+
+  @media (max-width:760px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:460px){ .grid{grid-template-columns:1fr;} .bar-row .name{width:100px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- PASSWORD GATE -->
+  <div class="gate" id="gate">
+    <div class="glass gate-card">
+      <h1>Owner access</h1>
+      <p>This dashboard is only for the site owner.</p>
+      <input type="password" id="pwInput" placeholder="Password" autocomplete="off">
+      <button class="gate-btn" id="pwSubmit">Unlock</button>
+      <div class="gate-err" id="gateErr"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dash" id="dash">
+    <div class="dash-head">
+      <div>
+        <h1>Pahadon Ki Raat — Site Info</h1>
+        <p>Owner-only statistics dashboard</p>
+      </div>
+      <div class="logout" id="logoutBtn">Lock dashboard</div>
+    </div>
+
+    <div class="grid">
+      <div class="glass stat-card">
+        <div class="lbl">Total visits <span class="badge">Global</span></div>
+        <div class="val" id="statVisits">—</div>
+        <div class="sub">All-time, all devices</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="lbl">Total song plays <span class="badge">Global</span></div>
+        <div class="val" id="statPlays">—</div>
+        <div class="sub">Across the playlist</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="lbl">Sessions <span class="badge local">This device</span></div>
+        <div class="val" id="statSessions">—</div>
+        <div class="sub">Recorded on this browser</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="lbl">Favourites <span class="badge local">This device</span></div>
+        <div class="val" id="statLikes">—</div>
+        <div class="sub">Liked on this browser</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="glass stat-card">
+        <div class="lbl">Plays today <span class="badge">Global</span></div>
+        <div class="val" id="statPlaysToday">—</div>
+        <div class="sub">Since midnight, this device's clock</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="lbl">Most played song <span class="badge">Global</span></div>
+        <div class="val" id="statTopSong" style="font-size:16px; line-height:1.3;">—</div>
+        <div class="sub" id="statTopSongCount">—</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="lbl">Avg. sessions/day <span class="badge local">This device</span></div>
+        <div class="val" id="statAvgSessions">—</div>
+        <div class="sub" id="statSpanDays">—</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="lbl">Mobile vs desktop <span class="badge local">This device history</span></div>
+        <div class="val" id="statDeviceSplit" style="font-size:20px;">—</div>
+        <div class="sub">Share of recorded sessions</div>
+      </div>
+    </div>
+
+    <div class="glass section">
+      <h2>Song popularity <span class="badge">Global play counts</span></h2>
+      <div id="songBars"><div class="note">Loading…</div></div>
+    </div>
+
+    <div class="glass section">
+      <h2>Visits by day <span class="badge local">This device, last 14 days</span></h2>
+      <div id="visitTimeline"><div class="note">Loading…</div></div>
+    </div>
+
+    <div class="glass section">
+      <h2>Mood theme popularity <span class="badge local">This device only</span></h2>
+      <div id="moodBars"><div class="note">Loading…</div></div>
+      <p class="note" style="margin-top:12px;">
+        Reflects which background mood (Bonfire / Moonlight / Deep Night / Misty Dawn) was active most often when this browser visited. Since mood choice is saved per-device, this can't be aggregated globally without a backend.
+      </p>
+    </div>
+
+    <div class="glass section">
+      <h2>Browser & language breakdown <span class="badge local">This device history</span></h2>
+      <div id="langBars"><div class="note">Loading…</div></div>
+    </div>
+
+    <div class="glass section">
+      <h2>Recent sessions <span class="badge local">This device only</span></h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>When</th><th>Referrer</th><th>Device</th><th>Viewport</th><th>Language</th></tr></thead>
+          <tbody id="sessionRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="glass section">
+      <h2>Data controls</h2>
+      <div class="btn-row">
+        <button class="ghost-btn" id="refreshBtn">Refresh global counts</button>
+        <button class="ghost-btn danger" id="clearBtn">Clear local session history</button>
+      </div>
+      <p class="note" style="margin-top:14px;">
+        Global figures (visits, song plays) are counted with a free, keyless counter service and are shared across every visitor's browser — that part is real, site-wide data.
+        Everything else on this page (referrer, device, viewport, language, mood theme, visit timeline) is recorded only in <em>this</em> browser's local storage, because a fully static site with no backend
+        can't see other people's devices. For real per-visitor analytics (locations, unique visitors, cross-device timelines) you'd want to wire in a proper analytics backend
+        (e.g. Plausible, Umami, or a small serverless function) — happy to help set that up if you want it later.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// Change this before you deploy. This is a simple client-side
+// gate, not real security — anyone who reads the page source
+// could find it. It's a deterrent for casual visitors, not a
+// login system. For real protection, put this page behind
+// server-side auth (e.g. Netlify/Cloudflare Access, or a tiny
+// backend) instead.
+// ============================================================
+const OWNER_PASSWORD = "yash-mountains-2026";
+
+const PLAYLIST = [
+  { id:'TRfosj3JvOo', title:'Safarnama' },
+  { id:'Mo5tQDcs__g', title:'Aao Milo Chalen' },
+  { id:'yzVotj2ZdUY', title:'Ho Gaya Hai Tujhko' },
+  { id:'IJq0yyWug1k', title:'Tum Hi Ho' },
+  { id:'S1aQhVUy_9g', title:'Maahi Ve' },
+  { id:'uqa0BvYy03I', title:'Neele Neele Ambar Par' },
+  { id:'HnLtNrvfZTU', title:'Lag Ja Gale' },
+  { id:'jHNNMj5bNQw', title:'Kabira' },
+  { id:'AicKz1ISNjU', title:'Ilahi' },
+  { id:'GyZyndDUWFs', title:'Phir Se Ud Chala' },
+  { id:'sFMRqxCexDk', title:'Choo Lo' },
+  { id:'fFyXcX-s0C8', title:'Sham' },
+  { id:'fSS_R91Nimw', title:'Iktara' },
+  { id:'ZmcBC9-wAXM', title:'Qaafirana' },
+  { id:'T94PHkuydcw', title:'Kun Faya Kun' },
+  { id:'ELrJzMCBv-0', title:'Roobaroo' },
+  { id:'JGmfGcOZUo4', title:'Kyon' },
+  { id:'xzUVPN68Ym4', title:'Dil Ibaadat' },
+  { id:'V1fbOsHBlZE', title:'Haan Tu Hai' },
+  { id:'WpDGpBqo1g8', title:'Tere Liye' },
+  { id:'qSy6xPm_Tpo', title:'Aankhon Mein Teri Ajab Si' },
+  { id:'ru_5PA8cwkE', title:'Mitwa' },
+  { id:'rIujePFpuCU', title:'Tumse Milke Dil Ka Jo Haal' },
+  { id:'pmHnlBqjpm0', title:'Ya Ali' },
+  { id:'WeY9hdsmIaQ', title:'Bheegi Bheegi' },
+  { id:'LCfvYo3ILG0', title:'Yaaron' },
+  { id:'NUqlCJTYu6I', title:'Pyaar Ke Pal' },
+  { id:'Bx5sqAE86e0', title:'Yeh Dosti Hum Nahi Todenge' },
+  { id:'JmXyV6f3wI4', title:'Pal Pal Dil Ke Paas' },
+  { id:'I5t894l5b1w', title:'Gulabi Aankhen' },
+  { id:'lrAM_H7v8wM', title:'Kya Mujhe Pyaar Hai' },
+  { id:'cgZa220VNIA', title:'Alvida' },
+  { id:'NV_XDwH606c', title:'Tadap Tadap' },
+  { id:'sslbSeWD1Bo', title:'Hairat' },
+  { id:'qZgTPiuifBo', title:'O Sanam' },
+  { id:'eSxo4l-epv8', title:'Na Tum Jaano Na Hum' },
+  { id:'4g0QivOeup0', title:'Khaabon Ke Parinday' },
+  { id:'4G1EYDJfyNE', title:'Rock On!!' },
+  { id:'1DwROkoAAcI', title:'Musafir Hoon Yaaron' },
+  { id:'blI40J3bGlA', title:'Yeh Shaam Mastani' },
+  { id:'t533PJnDMKg', title:'Give Me Some Sunshine' },
+  { id:'NI72ZW5J3cI', title:'Gul' },
+  { id:'gJLVTKhTnog', title:'Husn' },
+  { id:'RLzC55ai0eo', title:'Heeriye' },
+  { id:'E-Qzp9_uzlA', title:'O Maahi' },
+  { id:'ilNt2bikxDI', title:'Jo Tum Mere Ho' },
+  { id:'tYqZK7bq5Bs', title:'Baarishein' },
+  { id:'0P3Gt-60yLc', title:'Mishri' },
+  { id:'Q7kv9nuhTB8', title:'Le Le Maza Le' },
+  { id:'EKcQxtFcKSk', title:'Ramba Ho' },
+  { id:'JA09HEGTzCU', title:'Arziyan' },
+  { id:'YSWMbwQuWAY', title:'Aaj Din Chadheya' },
+  { id:'FlY2YplRQMM', title:'Aashiyan' },
+  { id:'mzxHflxI-es', title:'Zindagi Ek Safar Hai Suhana' },
+  { id:'UNjhqT_hlbg', title:'Chala Jata Hoon' },
+  { id:'w0AkZQUokog', title:'Kahin Door Jab Din Dhal Jaye' },
+  { id:'JrWtfHuFPi0', title:'Aal Izz Well' },
+  { id:'DRgsMh1zwsc', title:'Jaane Kyun' },
+  { id:'kBhYUDPxPC4', title:'Kaisi Paheli Zindagani' },
+  { id:'j9cQ8FFGkxw', title:'Love You Zindagi' },
+  { id:'vt4jX0iRgCg', title:'Kho Gaye Hum Kahan' },
+  { id:'Il7Nv270zNk', title:'cold/mess' },
+  { id:'BmUe3-sfr7E', title:'Kasoor' },
+  { id:'vA86QFrXoho', title:'Alag Aasmaan' },
+  { id:'AFTIVN8rRbI', title:'Sajni' },
+  { id:'hxMNYkLN7tI', title:'Aaj Ki Raat' },
+  { id:'ZHL1cSOsm2s', title:'Afsos' }
+];
+const CA_NAMESPACE = 'pahadonkiraat-yash-v1';
+
+const gate = document.getElementById('gate');
+const dash = document.getElementById('dash');
+const pwInput = document.getElementById('pwInput');
+const gateErr = document.getElementById('gateErr');
+
+function unlock(){
+  gate.style.display = 'none';
+  dash.classList.add('show');
+  loadDashboard();
+}
+
+document.getElementById('pwSubmit').addEventListener('click', tryLogin);
+pwInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') tryLogin(); });
+function tryLogin(){
+  if(pwInput.value === OWNER_PASSWORD){
+    sessionStorage.setItem('pkr_owner_auth', '1');
+    unlock();
+  } else {
+    gateErr.textContent = 'Incorrect password.';
+    pwInput.value = '';
+  }
+}
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  sessionStorage.removeItem('pkr_owner_auth');
+  location.reload();
+});
+
+if(sessionStorage.getItem('pkr_owner_auth') === '1') unlock();
+
+// ---------- Dashboard data ----------
+async function caGet(kind, key){
+  try{
+    const res = await fetch(`https://api.countapi.xyz/get/${CA_NAMESPACE}/${kind}_${key}`);
+    if(!res.ok) return 0;
+    const data = await res.json();
+    return data && typeof data.value === 'number' ? data.value : 0;
+  }catch(e){ return 0; }
+}
+
+async function loadDashboard(){
+  // Global visits
+  const visits = await caGet('visit', 'total');
+  document.getElementById('statVisits').textContent = visits.toLocaleString();
+
+  // Global song plays
+  const counts = await Promise.all(PLAYLIST.map(t => caGet('play', t.id)));
+  const totalPlays = counts.reduce((a,b)=>a+b,0);
+  document.getElementById('statPlays').textContent = totalPlays.toLocaleString();
+
+  const bars = document.getElementById('songBars');
+  bars.innerHTML = '';
+  const max = Math.max(1, ...counts);
+  PLAYLIST.forEach((t,i)=>{
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="name">${t.title}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(counts[i]/max*100).toFixed(1)}%"></div></div>
+      <div class="bar-num">${counts[i]}</div>`;
+    bars.appendChild(row);
+  });
+
+  // Most played song (global)
+  let topIdx = 0;
+  counts.forEach((c,i)=>{ if(c > counts[topIdx]) topIdx = i; });
+  if(totalPlays > 0){
+    document.getElementById('statTopSong').textContent = PLAYLIST[topIdx].title;
+    document.getElementById('statTopSongCount').textContent = `${counts[topIdx].toLocaleString()} global plays`;
+  } else {
+    document.getElementById('statTopSong').textContent = 'No plays yet';
+    document.getElementById('statTopSongCount').textContent = '—';
+  }
+
+  // Local session data
+  const sessions = JSON.parse(localStorage.getItem('pkr_sessions') || '[]');
+  document.getElementById('statSessions').textContent = sessions.length;
+  const likes = JSON.parse(localStorage.getItem('pkr_likes') || '[]');
+  document.getElementById('statLikes').textContent = likes.length;
+
+  // Plays today (global counter, keyed by this browser's local date — approximate, see note on page)
+  const todayKey = new Date().toISOString().slice(0,10);
+  const playsToday = await caGet('day', todayKey);
+  document.getElementById('statPlaysToday').textContent = playsToday.toLocaleString();
+
+  // Avg sessions/day + span, from local history
+  if(sessions.length){
+    const times = sessions.map(s=>s.t).sort((a,b)=>a-b);
+    const spanDays = Math.max(1, Math.ceil((times[times.length-1]-times[0]) / 86400000) + 1);
+    document.getElementById('statAvgSessions').textContent = (sessions.length/spanDays).toFixed(1);
+    document.getElementById('statSpanDays').textContent = `Over ${spanDays} day${spanDays===1?'':'s'} on this device`;
+  } else {
+    document.getElementById('statAvgSessions').textContent = '—';
+    document.getElementById('statSpanDays').textContent = 'No history yet';
+  }
+
+  // Mobile vs desktop split, from local history
+  if(sessions.length){
+    const mobileCount = sessions.filter(s=>s.mobile).length;
+    const mobilePct = Math.round(mobileCount/sessions.length*100);
+    document.getElementById('statDeviceSplit').textContent = `${mobilePct}% / ${100-mobilePct}%`;
+  } else {
+    document.getElementById('statDeviceSplit').textContent = '—';
+  }
+
+  // Visits-by-day timeline, last 14 days, from local history
+  const timeline = document.getElementById('visitTimeline');
+  timeline.innerHTML = '';
+  const dayBuckets = {};
+  const now = new Date();
+  const dayLabels = [];
+  for(let i=13; i>=0; i--){
+    const d = new Date(now); d.setDate(d.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    dayBuckets[key] = 0;
+    dayLabels.push(key);
+  }
+  sessions.forEach(s=>{
+    const key = new Date(s.t).toISOString().slice(0,10);
+    if(key in dayBuckets) dayBuckets[key]++;
+  });
+  const maxDay = Math.max(1, ...Object.values(dayBuckets));
+  const row = document.createElement('div');
+  row.className = 'timeline-row';
+  dayLabels.forEach(key=>{
+    const val = dayBuckets[key];
+    const d = new Date(key);
+    const lbl = `${d.getDate()}/${d.getMonth()+1}`;
+    const bar = document.createElement('div');
+    bar.className = 'timeline-bar';
+    bar.innerHTML = `<div class="timeline-fill" style="height:${(val/maxDay*100).toFixed(0)}%" title="${val} visit${val===1?'':'s'}"></div><div class="timeline-lbl">${lbl}</div>`;
+    row.appendChild(bar);
+  });
+  timeline.appendChild(row);
+  if(!sessions.length){
+    timeline.innerHTML = '<div class="note">No local visit history yet on this device.</div>';
+  }
+
+  // Mood theme popularity, from local preference history (single current value + session log if tagged)
+  const moodBars = document.getElementById('moodBars');
+  const currentMood = localStorage.getItem('pkr_mood') || 'bonfire';
+  const moodLabels = { bonfire:'🔥 Bonfire', moonlight:'🌙 Moonlight', deepnight:'🌌 Deep Night', dawn:'🌅 Misty Dawn' };
+  moodBars.innerHTML = `<div class="note">Current saved theme on this device: <strong>${moodLabels[currentMood] || currentMood}</strong>. Mood is stored as a single latest preference (not a running history), so only the current value is available — see note below.</div>`;
+
+  // Browser / language breakdown, from local session history
+  const langBars = document.getElementById('langBars');
+  langBars.innerHTML = '';
+  if(sessions.length){
+    const langCounts = {};
+    sessions.forEach(s=>{
+      const lang = s.lang || 'unknown';
+      langCounts[lang] = (langCounts[lang]||0) + 1;
+    });
+    const maxLang = Math.max(1, ...Object.values(langCounts));
+    Object.entries(langCounts).sort((a,b)=>b[1]-a[1]).forEach(([lang,count])=>{
+      const r = document.createElement('div');
+      r.className = 'bar-row';
+      r.innerHTML = `
+        <div class="name">${lang}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(count/maxLang*100).toFixed(1)}%"></div></div>
+        <div class="bar-num">${count}</div>`;
+      langBars.appendChild(r);
+    });
+  } else {
+    langBars.innerHTML = '<div class="note">No local session history yet on this device.</div>';
+  }
+
+  const rows = document.getElementById('sessionRows');
+  rows.innerHTML = '';
+  sessions.slice().reverse().slice(0,50).forEach(s=>{
+    const tr = document.createElement('tr');
+    const when = new Date(s.t).toLocaleString();
+    tr.innerHTML = `
+      <td>${when}</td>
+      <td>${s.ref === '' ? 'direct' : s.ref}</td>
+      <td>${s.mobile ? 'Mobile' : 'Desktop'}</td>
+      <td>${s.w}×${s.h}</td>
+      <td>${s.lang || '—'}</td>`;
+    rows.appendChild(tr);
+  });
+  if(!sessions.length){
+    rows.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--mist-dim);">No local session history yet on this device.</td></tr>';
+  }
+}
+
+document.getElementById('refreshBtn').addEventListener('click', loadDashboard);
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(confirm('Clear this device\'s local session history? Global visit/play counts are not affected.')){
+    localStorage.removeItem('pkr_sessions');
+    loadDashboard();
+  }
+});
+</script>
+</body>
+</html>
