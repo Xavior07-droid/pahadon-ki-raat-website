@@ -16,7 +16,7 @@ playback and an owner-only stats dashboard.
 No build step, no server, no dependencies to install — it's plain HTML/CSS/JS.
 
 ## Before you go live
-- **Change the owner password.** Open `stats.html`, find `OWNER_PASSWORD = "yash-mountains-2026"` near
+- **Change the owner password.** Open `stats.html`, find `OWNER_PASSWORD = ""` near
   the top of the `<script>`, and set your own. Since this is a static site with no backend, this is a
   *deterrent*, not real security — anyone who views page source could find it. If you ever want this
   properly locked down, that needs a small backend or a host-level password wall (Netlify/Cloudflare
