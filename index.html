@@ -1070,6 +1070,7 @@
       <div class="quote-line">Safar Khubsoorat hai Manzil se bhi</div>
 
       <div class="queue-panel glass" id="queuePanel">
+        <div class="queue-count" id="queueCount" style="padding:8px 12px 0; font-size:11px; color:var(--mist-dim); letter-spacing:.5px;"></div>
         <div class="queue-scroll" id="queueScroll"></div>
       </div>
 
@@ -1389,6 +1390,8 @@
     // ---------- Queue panel ----------
     function renderQueue() {
       const box = document.getElementById('queueScroll');
+      const countEl = document.getElementById('queueCount');
+      if (countEl) countEl.textContent = `${PLAYLIST.length} songs`;
       box.innerHTML = '';
       PLAYLIST.forEach((track, i) => {
         const row = document.createElement('div');
