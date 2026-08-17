@@ -640,32 +640,31 @@
     }
 
     .player {
-      width: min(760px, 94vw);
+      width: min(440px, 90vw);
       border-radius: var(--r-md);
-      padding: 14px 20px;
+      padding: 12px 16px;
       display: flex;
-      align-items: center;
-      gap: 18px;
+      flex-direction: column;
+      gap: 9px;
     }
 
     .player-top {
       display: flex;
       align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
+      gap: 12px;
     }
 
     .art-wrap {
       position: relative;
-      width: 58px;
-      height: 58px;
+      width: 46px;
+      height: 46px;
       flex-shrink: 0;
     }
 
     .art {
-      width: 58px;
-      height: 58px;
-      border-radius: 14px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
       overflow: hidden;
       border: 1px solid var(--border);
       box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
@@ -681,25 +680,19 @@
     .art-ring {
       position: absolute;
       inset: -4px;
-      border-radius: 16px;
+      border-radius: 50%;
       border: 2px solid rgba(255, 157, 82, .55);
       opacity: 0;
     }
 
     .art-ring.spin {
       opacity: 1;
-      animation: ringpulse 2.4s ease-in-out infinite;
+      animation: spin 6s linear infinite;
     }
 
-    @keyframes ringpulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(255, 157, 82, .35);
-      }
-
-      50% {
-        box-shadow: 0 0 0 6px rgba(255, 157, 82, 0);
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
     }
 
@@ -709,7 +702,7 @@
     }
 
     .track-title {
-      font-size: 16px;
+      font-size: 13.5px;
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
@@ -717,12 +710,12 @@
     }
 
     .track-artist {
-      font-size: 12.5px;
+      font-size: 11.5px;
       color: var(--mist);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .side-actions {
@@ -758,26 +751,17 @@
       height: 15px;
     }
 
-    .player-center {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
     .progress-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      width: 100%;
+      gap: 8px;
     }
 
     .time-lbl {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--mist);
-      width: 34px;
+      width: 32px;
       flex-shrink: 0;
       text-align: center;
     }
@@ -785,9 +769,9 @@
     .progress-track {
       position: relative;
       flex: 1;
-      height: 5px;
+      height: 4px;
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.16);
       cursor: pointer;
     }
 
@@ -795,7 +779,7 @@
       position: absolute;
       inset: 0;
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
       width: 0%;
     }
 
@@ -803,7 +787,7 @@
       position: absolute;
       inset: 0;
       border-radius: 6px;
-      background: var(--moon);
+      background: linear-gradient(90deg, var(--ember), var(--ember-soft));
       width: 0%;
     }
 
@@ -812,26 +796,19 @@
       position: absolute;
       right: -4px;
       top: 50%;
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background: var(--moon);
       transform: translateY(-50%);
-      box-shadow: 0 0 6px rgba(0, 0, 0, .5);
-      opacity: 0;
-      transition: opacity .15s ease;
-    }
-
-    .progress-track:hover .progress-fill::after {
-      opacity: 1;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .4);
     }
 
     .controls-row {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-      flex-shrink: 0;
+      justify-content: center;
+      gap: 14px;
     }
 
     .ctrl {
@@ -864,34 +841,9 @@
       color: var(--ember);
     }
 
-    .round-ctrl {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--moon);
-      transition: background .2s ease, transform .15s ease;
-      flex-shrink: 0;
-    }
-
-    .round-ctrl:hover {
-      background: rgba(255, 255, 255, 0.16);
-      transform: scale(1.05);
-    }
-
-    .round-ctrl svg {
-      width: 17px;
-      height: 17px;
-    }
-
     .play-btn {
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: linear-gradient(160deg, var(--ember-soft), var(--ember));
       display: flex;
@@ -901,7 +853,6 @@
       box-shadow: 0 4px 16px rgba(255, 157, 82, .4);
       border: none;
       transition: transform .18s ease;
-      flex-shrink: 0;
     }
 
     .play-btn:hover {
@@ -913,8 +864,8 @@
     }
 
     .play-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       fill: #1a0f04;
     }
 
@@ -1009,26 +960,12 @@
       }
 
       .player {
-        padding: 14px 16px;
-        width: min(420px, 94vw);
-        flex-wrap: wrap;
-      }
-
-      .player-top {
-        width: 100%;
-      }
-
-      .player-center {
-        width: 100%;
-        order: 3;
+        padding: 11px 12px;
+        width: min(380px, 94vw);
       }
 
       .controls-row {
         gap: 12px;
-        width: 100%;
-        order: 2;
-        justify-content: center;
-        margin: 4px 0 2px;
       }
 
       .queue-meta .qa {
@@ -1133,6 +1070,7 @@
       <div class="quote-line">Safar Khubsoorat hai Manzil se bhi</div>
 
       <div class="queue-panel glass" id="queuePanel">
+        <div class="queue-count" id="queueCount" style="padding:8px 12px 0; font-size:11px; color:var(--mist-dim); letter-spacing:.5px;"></div>
         <div class="queue-scroll" id="queueScroll"></div>
       </div>
 
@@ -1142,64 +1080,48 @@
             <div class="art-ring" id="artRing"></div>
             <div class="art" id="artImg"></div>
           </div>
+          <div class="track-meta">
+            <div class="track-title" id="trackTitle">Loading…</div>
+            <div class="track-artist" id="trackArtist">—</div>
+          </div>
+          <div class="side-actions">
+            <div class="mini-btn" id="likeBtn" title="Like">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M12 21s-7-4.6-9.5-9.1C1 8.8 2.4 5.5 5.6 5c2-.3 3.6.7 4.4 2.2C10.8 5.7 12.4 4.7 14.4 5c3.2.5 4.6 3.8 3.1 6.9C20 16.4 12 21 12 21z" />
+              </svg>
+            </div>
+            <div class="mini-btn" id="queueBtn" title="Queue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="12" x2="14" y2="12" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+              </svg>
+            </div>
+          </div>
         </div>
 
-        <div class="player-center">
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
-            <div class="track-meta">
-              <div class="track-title" id="trackTitle">Loading…</div>
-              <div class="track-artist" id="trackArtist">—</div>
-            </div>
-            <div class="side-actions">
-              <div class="mini-btn" id="likeBtn" title="Like">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path
-                    d="M12 21s-7-4.6-9.5-9.1C1 8.8 2.4 5.5 5.6 5c2-.3 3.6.7 4.4 2.2C10.8 5.7 12.4 4.7 14.4 5c3.2.5 4.6 3.8 3.1 6.9C20 16.4 12 21 12 21z" />
-                </svg>
-              </div>
-              <div class="mini-btn" id="queueBtn" title="Queue">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                  <line x1="4" y1="6" x2="20" y2="6" />
-                  <line x1="4" y1="12" x2="14" y2="12" />
-                  <line x1="4" y1="18" x2="20" y2="18" />
-                </svg>
-              </div>
-              <button class="ctrl small" id="shuffleBtn" title="Shuffle">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <polyline points="16 3 21 3 21 8" />
-                  <line x1="4" y1="20" x2="21" y2="3" />
-                  <polyline points="21 16 21 21 16 21" />
-                  <line x1="15" y1="15" x2="21" y2="21" />
-                  <line x1="4" y1="4" x2="9" y2="9" />
-                </svg>
-              </button>
-              <div style="position:relative;">
-                <button class="ctrl small" id="repeatBtn" title="Repeat">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <polyline points="17 1 21 5 17 9" />
-                    <path d="M3 11V9a4 4 0 0 1 4-4h14" />
-                    <polyline points="7 23 3 19 7 15" />
-                    <path d="M21 13v2a4 4 0 0 1-4 4H3" />
-                  </svg>
-                </button>
-              </div>
-            </div>
+        <div class="progress-row">
+          <span class="time-lbl" id="curTime">0:00</span>
+          <div class="progress-track" id="progressTrack">
+            <div class="progress-buffer" id="progressBuffer"></div>
+            <div class="progress-fill" id="progressFill"></div>
           </div>
-
-          <div class="progress-row">
-            <span class="time-lbl" id="curTime">0:00</span>
-            <div class="progress-track" id="progressTrack">
-              <div class="progress-buffer" id="progressBuffer"></div>
-              <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <span class="time-lbl" id="durTime">0:00</span>
-          </div>
+          <span class="time-lbl" id="durTime">0:00</span>
         </div>
 
         <div class="controls-row">
-          <button class="round-ctrl" id="prevBtn" title="Previous">
+          <button class="ctrl small" id="shuffleBtn" title="Shuffle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8" />
+              <line x1="4" y1="20" x2="21" y2="3" />
+              <polyline points="21 16 21 21 16 21" />
+              <line x1="15" y1="15" x2="21" y2="21" />
+              <line x1="4" y1="4" x2="9" y2="9" />
+            </svg>
+          </button>
+          <button class="ctrl" id="prevBtn" title="Previous">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M6 6h2v12H6zM20 6L9 12l11 6z" />
             </svg>
@@ -1209,11 +1131,22 @@
               <path d="M8 5v14l11-7z" />
             </svg>
           </button>
-          <button class="round-ctrl" id="nextBtn" title="Next">
+          <button class="ctrl" id="nextBtn" title="Next">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M16 6h2v12h-2zM4 6l11 6-11 6z" />
             </svg>
           </button>
+          <div style="position:relative;">
+            <button class="ctrl small" id="repeatBtn" title="Repeat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9" />
+                <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                <polyline points="7 23 3 19 7 15" />
+                <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1234,73 +1167,91 @@
     // ---------- Playlist (mountain / night camp / bonfire / acoustic / iconic night songs) ----------
     // Every ID below has been individually verified against a real YouTube upload.
     const PLAYLIST = [
-      { id: 'TRfosj3JvOo', title: 'Safarnama', artist: 'Lucky Ali · Tamasha', duration: '4:12' },
-      { id: 'Mo5tQDcs__g', title: 'Aao Milo Chalen', artist: 'Shaan, Ustad Sultan Khan · Jab We Met', duration: '5:25' },
-      { id: 'yzVotj2ZdUY', title: 'Ho Gaya Hai Tujhko', artist: 'Lata Mangeshkar, Udit Narayan · DDLJ', duration: '5:49' },
-      { id: 'IJq0yyWug1k', title: 'Tum Hi Ho', artist: 'Arijit Singh · Aashiqui 2', duration: '4:22' },
-      { id: 'S1aQhVUy_9g', title: 'Maahi Ve', artist: 'A.R. Rahman · Highway', duration: '4:00' },
-      { id: 'uqa0BvYy03I', title: 'Neele Neele Ambar Par', artist: 'SANAM', duration: '3:54' },
-      { id: 'HnLtNrvfZTU', title: 'Lag Ja Gale', artist: 'SANAM (Acoustic)', duration: '3:58' },
-      { id: 'jHNNMj5bNQw', title: 'Kabira', artist: 'Tochi Raina, Rekha Bhardwaj · YJHD', duration: '3:44' },
-      { id: 'AicKz1ISNjU', title: 'Ilahi', artist: 'Arijit Singh · Yeh Jawaani Hai Deewani', duration: '3:49' },
-      { id: 'GyZyndDUWFs', title: 'Phir Se Ud Chala', artist: 'Mohit Chauhan · Rockstar', duration: '4:31' },
-      { id: 'sFMRqxCexDk', title: 'Choo Lo', artist: 'The Local Train', duration: '3:54' },
-      { id: 'fFyXcX-s0C8', title: 'Sham', artist: 'Amit Trivedi, Nikhil D’Souza · Aisha', duration: '4:44' },
-      { id: 'fSS_R91Nimw', title: 'Iktara', artist: 'Kavita Seth · Wake Up Sid', duration: '4:13' },
-      { id: 'ZmcBC9-wAXM', title: 'Qaafirana', artist: 'Arijit Singh, Nikhita Gandhi · Kedarnath', duration: '5:42' },
-      { id: 'T94PHkuydcw', title: 'Kun Faya Kun', artist: 'A.R. Rahman, Javed Ali, Mohit Chauhan · Rockstar', duration: '7:52' },
-      { id: 'ELrJzMCBv-0', title: 'Roobaroo', artist: 'A.R. Rahman, Naresh Iyer · Rang De Basanti', duration: '4:40' },
-      { id: 'JGmfGcOZUo4', title: 'Kyon', artist: 'Papon, Sunidhi Chauhan · Barfi!', duration: '4:26' },
       { id: 'xzUVPN68Ym4', title: 'Dil Ibaadat', artist: 'KK · Tum Mile', duration: '5:29' },
-      { id: 'V1fbOsHBlZE', title: 'Haan Tu Hai', artist: 'KK · Jannat', duration: '4:55' },
-      { id: 'WpDGpBqo1g8', title: 'Tere Liye', artist: 'Atif Aslam, Shreya Ghoshal · Prince', duration: '5:14' },
-      { id: 'qSy6xPm_Tpo', title: 'Aankhon Mein Teri Ajab Si', artist: 'KK · Om Shanti Om', duration: '4:45' },
+      { id: 'EvzNDQLwCqw', title: 'Ehsaas', artist: 'Faheem Abdullah, Vaibhav Pani, Hyder Dar', duration: '3:52' },
+      { id: 'sslbSeWD1Bo', title: 'Hairat', artist: 'Lucky Ali · Anjaana Anjaani', duration: '4:08' },
+      { id: 'JSFG-IE8n_c', title: 'Like JENNIE', artist: 'JENNIE', duration: '2:03' },
+      { id: 'jHNNMj5bNQw', title: 'Kabira', artist: 'Tochi Raina, Rekha Bhardwaj · YJHD', duration: '3:44' },
+      { id: 'eXg_ZeSWzmo', title: 'Barsaat', artist: 'Banjaare, RONI', duration: '3:25' },
+      { id: 'UNjhqT_hlbg', title: 'Chala Jata Hoon', artist: 'Kishore Kumar · Mere Jeevan Saathi', duration: '4:45' },
+      { id: 'sFMRqxCexDk', title: 'Choo Lo', artist: 'The Local Train', duration: '3:54' },
       { id: 'ru_5PA8cwkE', title: 'Mitwa', artist: 'Shafqat Amanat Ali, Shankar Mahadevan · KANK', duration: '6:23' },
-      { id: 'rIujePFpuCU', title: 'Tumse Milke Dil Ka Jo Haal', artist: 'Sonu Nigam, Sabri Brothers · Main Hoon Na', duration: '5:59' },
-      { id: 'pmHnlBqjpm0', title: 'Ya Ali', artist: 'Zubeen Garg · Gangster', duration: '4:55' },
-      { id: 'WeY9hdsmIaQ', title: 'Bheegi Bheegi', artist: 'Pritam, James · Gangster', duration: '4:52' },
-      { id: 'LCfvYo3ILG0', title: 'Yaaron', artist: 'KK · Rockford', duration: '4:33' },
-      { id: 'NUqlCJTYu6I', title: 'Pyaar Ke Pal', artist: 'KK', duration: '6:02' },
       { id: 'Bx5sqAE86e0', title: 'Yeh Dosti Hum Nahi Todenge', artist: 'Kishore Kumar, Manna Dey · Sholay', duration: '4:54' },
       { id: 'JmXyV6f3wI4', title: 'Pal Pal Dil Ke Paas', artist: 'Kishore Kumar · Blackmail', duration: '4:20' },
-      { id: 'I5t894l5b1w', title: 'Gulabi Aankhen', artist: 'Mohammed Rafi · The Train', duration: '3:49' },
-      { id: 'lrAM_H7v8wM', title: 'Kya Mujhe Pyaar Hai', artist: 'KK · Woh Lamhe', duration: '5:38' },
-      { id: 'cgZa220VNIA', title: 'Alvida', artist: 'KK · Life in a Metro', duration: '5:36' },
-      { id: 'NV_XDwH606c', title: 'Tadap Tadap', artist: 'KK · Hum Dil De Chuke Sanam', duration: '6:35' },
-      { id: 'sslbSeWD1Bo', title: 'Hairat', artist: 'Lucky Ali · Anjaana Anjaani', duration: '4:08' },
-      { id: 'qZgTPiuifBo', title: 'O Sanam', artist: 'Lucky Ali · Sunoh', duration: '5:15' },
-      { id: 'eSxo4l-epv8', title: 'Na Tum Jaano Na Hum', artist: 'Lucky Ali · Kaho Naa... Pyaar Hai', duration: '6:23' },
-      { id: '4g0QivOeup0', title: 'Khaabon Ke Parinday', artist: 'Mohit Chauhan, Alyssa Mendonsa · ZNMD', duration: '4:11' },
-      { id: '4G1EYDJfyNE', title: 'Rock On!!', artist: 'Farhan Akhtar · Rock On!!', duration: '4:54' },
-      { id: '1DwROkoAAcI', title: 'Musafir Hoon Yaaron', artist: 'Kishore Kumar · Parichay', duration: '3:13' },
-      { id: 'blI40J3bGlA', title: 'Yeh Shaam Mastani', artist: 'Kishore Kumar · Kati Patang', duration: '3:56' },
-      { id: 't533PJnDMKg', title: 'Give Me Some Sunshine', artist: 'Suraj Jagan, Sharman Joshi · 3 Idiots', duration: '4:07' },
+      { id: 'dxraN_JvyPc', title: 'Ik Tera', artist: 'Maninder Buttar', duration: '3:15' },
+      { id: 'na2_j1sTUIc', title: 'Bin Tere', artist: 'Shafqat Amanat Ali, Sunidhi Chauhan · I Hate Luv Storys', duration: '5:33' },
+      { id: 'WpDGpBqo1g8', title: 'Tere Liye', artist: 'Atif Aslam, Shreya Ghoshal · Prince', duration: '5:14' },
+      { id: 'zWEOx7TSM6I', title: 'Chand Sifarish', artist: 'Shaan, Kailash Kher · Fanaa', duration: '4:37' },
       { id: 'NI72ZW5J3cI', title: 'Gul', artist: 'Anuv Jain', duration: '3:53' },
-      { id: 'gJLVTKhTnog', title: 'Husn', artist: 'Anuv Jain', duration: '3:51' },
+      { id: 'qtz5mpvgAM0', title: 'Mere Haath Mein', artist: 'Sonu Nigam, Sunidhi Chauhan · Fanaa', duration: '5:36' },
+      { id: 'U64Y624lw4s', title: 'Roi', artist: 'Videoclub', duration: '3:20' },
+      { id: 'blI40J3bGlA', title: 'Yeh Shaam Mastani', artist: 'Kishore Kumar · Kati Patang', duration: '3:56' },
+      { id: 'FlY2YplRQMM', title: 'Aashiyan', artist: 'Nikhil Paul George, Pritam · Barfi!', duration: '3:55' },
+      { id: 'j9cQ8FFGkxw', title: 'Love You Zindagi', artist: 'Amit Trivedi, Jasleen Royal · Dear Zindagi', duration: '3:51' },
+      { id: '9cDN-s8mLvU', title: 'Yeh Vaada Raha', artist: 'Kishore Kumar, Asha Bhosle · Yeh Vaada Raha', duration: '6:50' },
+      { id: 'lrAM_H7v8wM', title: 'Kya Mujhe Pyaar Hai', artist: 'KK · Woh Lamhe', duration: '5:38' },
+      { id: 'S1aQhVUy_9g', title: 'Maahi Ve', artist: 'A.R. Rahman · Highway', duration: '4:00' },
+      { id: 'Q7kv9nuhTB8', title: 'Le Le Maza Le', artist: 'Sajid-Wajid · Wanted', duration: '4:10' },
+      { id: 'POe9SOEKotk', title: 'Shut Down', artist: 'BLACKPINK', duration: '2:56' },
+      { id: 'V1fbOsHBlZE', title: 'Haan Tu Hai', artist: 'KK · Jannat', duration: '4:55' },
+      { id: 'tG0S4Br98Z8', title: 'Baatein Ye Kabhi Na', artist: 'Arijit Singh · Khamoshiyan', duration: '4:49' },
+      { id: 'AicKz1ISNjU', title: 'Ilahi', artist: 'Arijit Singh · Yeh Jawaani Hai Deewani', duration: '3:49' },
+      { id: 'BmUe3-sfr7E', title: 'Kasoor', artist: 'Prateek Kuhad', duration: '3:12' },
       { id: 'RLzC55ai0eo', title: 'Heeriye', artist: 'Jasleen Royal, Arijit Singh, Dulquer Salmaan', duration: '3:47' },
       { id: 'E-Qzp9_uzlA', title: 'O Maahi', artist: 'Arijit Singh · Dunki', duration: '3:53' },
-      { id: 'ilNt2bikxDI', title: 'Jo Tum Mere Ho', artist: 'Anuv Jain', duration: '4:12' },
-      { id: 'tYqZK7bq5Bs', title: 'Baarishein', artist: 'Anuv Jain', duration: '4:03' },
-      { id: '0P3Gt-60yLc', title: 'Mishri', artist: 'Anuv Jain', duration: '3:38' },
-      { id: 'Q7kv9nuhTB8', title: 'Le Le Maza Le', artist: 'Sajid-Wajid · Wanted', duration: '4:10' },
-      { id: 'EKcQxtFcKSk', title: 'Ramba Ho', artist: 'Madhubanti Bagchi, Shashwat Sachdev · Dhurandhar', duration: '3:52' },
-      { id: 'JA09HEGTzCU', title: 'Arziyan', artist: 'Javed Ali, Kailash Kher · Delhi-6', duration: '8:39' },
-      { id: 'YSWMbwQuWAY', title: 'Aaj Din Chadheya', artist: 'Rahat Fateh Ali Khan · Love Aaj Kal', duration: '3:37' },
-      { id: 'FlY2YplRQMM', title: 'Aashiyan', artist: 'Nikhil Paul George, Pritam · Barfi!', duration: '3:55' },
+      { id: 'LCfvYo3ILG0', title: 'Yaaron', artist: 'KK · Rockford', duration: '4:33' },
+      { id: 'kyqJ_FId-_w', title: 'Bairan', artist: 'Banjaare', duration: '3:30' },
       { id: 'mzxHflxI-es', title: 'Zindagi Ek Safar Hai Suhana', artist: 'Kishore Kumar · Andaz', duration: '4:22' },
-      { id: 'UNjhqT_hlbg', title: 'Chala Jata Hoon', artist: 'Kishore Kumar · Mere Jeevan Saathi', duration: '4:45' },
-      { id: 'w0AkZQUokog', title: 'Kahin Door Jab Din Dhal Jaye', artist: 'Mukesh · Anand', duration: '3:22' },
-      { id: 'JrWtfHuFPi0', title: 'Aal Izz Well', artist: 'Sonu Nigam, Swanand Kirkire, Shaan · 3 Idiots', duration: '4:36' },
-      { id: 'DRgsMh1zwsc', title: 'Jaane Kyun', artist: 'Vishal Dadlani · Dostana', duration: '4:37' },
+      { id: 'VdyBtGaspss', title: 'Chahun Main Ya Naa', artist: 'Arijit Singh, Palak Muchhal · Aashiqui 2', duration: '4:38' },
+      { id: 'q9leDzlNEaY', title: "Killin' It Girl", artist: 'j-hope ft. GloRilla', duration: '2:28' },
+      { id: 'Jg73p9udbAQ', title: 'Bling-Bang-Bang-Born', artist: 'Creepy Nuts', duration: '2:48' },
+      { id: 'IJq0yyWug1k', title: 'Tum Hi Ho', artist: 'Arijit Singh · Aashiqui 2', duration: '4:22' },
+      { id: 'qZgTPiuifBo', title: 'O Sanam', artist: 'Lucky Ali · Sunoh', duration: '5:15' },
+      { id: 'OPuu428QZLU', title: 'Naam Tera', artist: 'Ndee Kundu, Mp Sega', duration: '3:10' },
+      { id: 't533PJnDMKg', title: 'Give Me Some Sunshine', artist: 'Suraj Jagan, Sharman Joshi · 3 Idiots', duration: '4:07' },
+      { id: '8xg3vE8Ie_E', title: 'Love Story', artist: 'Taylor Swift', duration: '3:55' },
+      { id: 'QYh6mYIJG2Y', title: '7 Rings', artist: 'Ariana Grande', duration: '2:58' },
+      { id: 'e1mOmdykmwI', title: 'I Think They Call This Love', artist: 'Elliot James Reay', duration: '3:13' },
       { id: 'kBhYUDPxPC4', title: 'Kaisi Paheli Zindagani', artist: 'Sunidhi Chauhan · Parineeta', duration: '4:03' },
-      { id: 'j9cQ8FFGkxw', title: 'Love You Zindagi', artist: 'Amit Trivedi, Jasleen Royal · Dear Zindagi', duration: '3:51' },
+      { id: 'fAc6u5ZTODM', title: 'Samayama', artist: 'Hesham Abdul Wahab, Shouryuv · Hi Nanna', duration: '4:19' },
+      { id: '7UHSYC_8YQs', title: 'Aa Zara (Kareeb Se)', artist: 'Sunidhi Chauhan · Murder 2', duration: '4:35' },
+      { id: 'JGmfGcOZUo4', title: 'Kyon', artist: 'Papon, Sunidhi Chauhan · Barfi!', duration: '4:26' },
+      { id: 'tYqZK7bq5Bs', title: 'Baarishein', artist: 'Anuv Jain', duration: '4:03' },
+      { id: 'fSS_R91Nimw', title: 'Iktara', artist: 'Kavita Seth · Wake Up Sid', duration: '4:13' },
+      { id: 'rIujePFpuCU', title: 'Tumse Milke Dil Ka Jo Haal', artist: 'Sonu Nigam, Sabri Brothers · Main Hoon Na', duration: '5:59' },
+      { id: 'nZbY-ZSq6eM', title: 'Kanaiya Morli Vala', artist: 'Jasraj Shastri ft. Shreyansh Joshi', duration: '3:45' },
+      { id: 'c0viCB5k3Mg', title: 'Khamoshiyan', artist: 'Arijit Singh · Khamoshiyan', duration: '4:52' },
+      { id: 'GyZyndDUWFs', title: 'Phir Se Ud Chala', artist: 'Mohit Chauhan · Rockstar', duration: '4:31' },
       { id: 'vt4jX0iRgCg', title: 'Kho Gaye Hum Kahan', artist: 'Jasleen Royal, Prateek Kuhad · Baar Baar Dekho', duration: '3:33' },
-      { id: 'Il7Nv270zNk', title: 'cold/mess', artist: 'Prateek Kuhad', duration: '3:24' },
-      { id: 'BmUe3-sfr7E', title: 'Kasoor', artist: 'Prateek Kuhad', duration: '3:12' },
-      { id: 'vA86QFrXoho', title: 'Alag Aasmaan', artist: 'Anuv Jain', duration: '3:33' },
+      { id: 'hmE9f-TEutc', title: 'Blood Sweat & Tears', artist: 'BTS', duration: '3:37' },
+      { id: 'SCQOw1UBsVI', title: 'Sparkle', artist: 'RADWIMPS · Your Name', duration: '8:35' },
+      { id: 'GnzZyGQi2ps', title: 'Mai Rang Sharbaton Ka', artist: 'Atif Aslam, Chinmayi · Phata Poster Nikhla Hero', duration: '4:22' },
+      { id: 'RYz-XO_pvgM', title: 'Bhagwadhari', artist: 'Bucks Boy', duration: '3:35' },
+      { id: 'T94PHkuydcw', title: 'Kun Faya Kun', artist: 'A.R. Rahman, Javed Ali, Mohit Chauhan · Rockstar', duration: '7:52' },
+      { id: 'JA09HEGTzCU', title: 'Arziyan', artist: 'Javed Ali, Kailash Kher · Delhi-6', duration: '8:39' },
+      { id: 'ZmcBC9-wAXM', title: 'Qaafirana', artist: 'Arijit Singh, Nikhita Gandhi · Kedarnath', duration: '5:42' },
+      { id: 'Mo5tQDcs__g', title: 'Aao Milo Chalen', artist: 'Shaan, Ustad Sultan Khan · Jab We Met', duration: '5:25' },
+      { id: '1DwROkoAAcI', title: 'Musafir Hoon Yaaron', artist: 'Kishore Kumar · Parichay', duration: '3:13' },
+      { id: 'fFyXcX-s0C8', title: 'Sham', artist: 'Amit Trivedi, Nikhil D’Souza · Aisha', duration: '4:44' },
+      { id: 'f7qrT-Vd-C4', title: 'Mann Mera', artist: 'Gajendra Verma · Table No. 21', duration: '5:47' },
+      { id: 'ilNt2bikxDI', title: 'Jo Tum Mere Ho', artist: 'Anuv Jain', duration: '4:12' },
       { id: 'AFTIVN8rRbI', title: 'Sajni', artist: 'Arijit Singh · Laapataa Ladies', duration: '2:50' },
+      { id: 'JWux9POAQzU', title: 'Naal Nachna', artist: 'Shashwat Sachdev, Afsana Khan, Reble · Dhurandhar', duration: '3:12' },
+      { id: 'hHuG7FIKgtc', title: 'Ishq', artist: 'Amir Ameer, Faheem Abdullah, Rauhan Malik', duration: '4:04' },
+      { id: 'WeY9hdsmIaQ', title: 'Bheegi Bheegi', artist: 'Pritam, James · Gangster', duration: '4:52' },
       { id: 'hxMNYkLN7tI', title: 'Aaj Ki Raat', artist: 'Madhubanti Bagchi, Divya Kumar · Stree 2', duration: '3:48' },
-      { id: 'ZHL1cSOsm2s', title: 'Afsos', artist: 'Anuv Jain ft. AP Dhillon, Talha Anjum', duration: '3:15' }
+      { id: 'LaKOa57wo1w', title: '...Baby One More Time', artist: 'Britney Spears', duration: '3:30' },
+      { id: 'gJLVTKhTnog', title: 'Husn', artist: 'Anuv Jain', duration: '3:51' },
+      { id: 'DRgsMh1zwsc', title: 'Jaane Kyun', artist: 'Vishal Dadlani · Dostana', duration: '4:37' },
+      { id: 'NPBCbTZWnq0', title: 'River Flows in You', artist: 'Yiruma', duration: '2:53' },
+      { id: '4g0QivOeup0', title: 'Khaabon Ke Parinday', artist: 'Mohit Chauhan, Alyssa Mendonsa · ZNMD', duration: '4:11' },
+      { id: 'pmHnlBqjpm0', title: 'Ya Ali', artist: 'Zubeen Garg · Gangster', duration: '4:55' },
+      { id: 'vA86QFrXoho', title: 'Alag Aasmaan', artist: 'Anuv Jain', duration: '3:33' },
+      { id: 'YSWMbwQuWAY', title: 'Aaj Din Chadheya', artist: 'Rahat Fateh Ali Khan · Love Aaj Kal', duration: '3:37' },
+      { id: 'NV_XDwH606c', title: 'Tadap Tadap', artist: 'KK · Hum Dil De Chuke Sanam', duration: '6:35' },
+      { id: 'JrWtfHuFPi0', title: 'Aal Izz Well', artist: 'Sonu Nigam, Swanand Kirkire, Shaan · 3 Idiots', duration: '4:36' },
+      { id: 'TRfosj3JvOo', title: 'Safarnama', artist: 'Lucky Ali · Tamasha', duration: '4:12' },
+      { id: 'EKcQxtFcKSk', title: 'Ramba Ho', artist: 'Madhubanti Bagchi, Shashwat Sachdev · Dhurandhar', duration: '3:52' },
     ];
 
     const TAGS = ['CAMPFIRE VIBES', 'PAHADON KI RAAT', 'NIGHT CAMP', 'BONFIRE ACOUSTIC', 'STARGAZING MUSIC'];
@@ -1439,6 +1390,8 @@
     // ---------- Queue panel ----------
     function renderQueue() {
       const box = document.getElementById('queueScroll');
+      const countEl = document.getElementById('queueCount');
+      if (countEl) countEl.textContent = `${PLAYLIST.length} songs`;
       box.innerHTML = '';
       PLAYLIST.forEach((track, i) => {
         const row = document.createElement('div');
